@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$container: 960px;
+$columns: 12;
+$gutter: 20px;
+
+@mixin ipad {
+  @media only screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+.container {
+  max-width: $container;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gutter;
+
+  @include ipad() {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($container / 5, 1fr));
+  gap: $gutter;
+
+  @include ipad() {
+    grid-template-columns: 1fr;
+  }
+}
+
+@for $i from 1 through $columns {
+  .span-#{$i} {
+    grid-column: span $i;
+    @extend %span;
+  }
+}
+
+.span-full {
+  grid-column: 1 / -1;
+}
+
+%span {
+  @include ipad() {
+    grid-column: 1 / -1;
+  }
+}
